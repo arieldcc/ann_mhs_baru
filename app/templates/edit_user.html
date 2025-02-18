@@ -1,0 +1,53 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+
+<!-- Form Edit User -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Edit User</h6>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required minlength="8">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password (Kosongkan jika tidak ingin mengubah)</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="re_password" class="form-label">Re-Password</label>
+                        <input type="password" class="form-control" id="re_password" name="re_password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                            <option value="pimpinan" {% if user.role == 'pimpinan' %}selected{% endif %}>Pimpinan</option>
+                            <option value="guest" {% if user.role == 'guest' %}selected{% endif %}>Guest</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Foto Profil (Kosongkan jika tidak ingin mengubah)</label>
+                        <input type="file" class="form-control" id="foto" name="foto">
+                        {% if user.foto %}
+                            <img src="{{ url_for('static', filename='uploads/user/' + user.username + '/' + user.foto) }}" alt="Foto User" width="100" class="mt-2">
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Form End -->
+
+{% endblock %}

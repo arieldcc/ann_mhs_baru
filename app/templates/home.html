@@ -1,0 +1,51 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <!-- Halaman Utama -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Halaman Utama</h6>
+                <!-- <a href="">Show All</a> -->
+            </div>
+            <div class="col-md-12">
+                <p style="text-align: justify;">Jumlah mahasiswa baru yang diterima setiap tahunnya akan mempengaruhi proses perkuliahan pada perguruan tinggi tersebut. Salah satu hal yang dapat
+                    digunakan sebagai perencanaan saat perkuliahan adalah jumlah mahasiswa baru pada tahun mendatang, hal ini dikarenakan banyaknya jumlah mahasiswa baru akan berkaitan dengan jumlah dosen yang tersedia. Selain itu, penyediaan ruang kuliah dan fasilitas lainnya juga dapat dipersiapkan dengan baik. Oleh sebab itu penting untuk dilakukan prediksi terhadap jumlah mahasiswa baru pada tahun mendatang. Adapun jumlah mahasiswa baru pada Universitas Ichsan Gorontalo khususnya Fakultas Ilmu Komputer dalam 5 tahun terakhir yaitu pada tahun 2020 sampai tahun 2024 mengalami pasang surut, walaupun saat ini telah memiliki 3 Program Studi yaknik Teknik Informatika, Sistem Informasi dan Desain Komunikasi Visual.
+                    </p>
+                    
+            </div>
+        </div>
+    </div>
+
+    <!-- Pola Data -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Menentukan pola data</h6>
+            </div>
+            <div class="col-md-12">
+                <p style="text-align: justify;">Penetapan pola data digunakan untuk menentukan variabel bebas dan variabel terikat. Variabel bebas adalah variabel yang keberadaanya tidak dipengaruhi oleh variabel yang lain. Sedangkan variabel terikat adalah varibel yang dipengaruhi oleh variabel lain atau variabel yang menjadi target. Penentuan pola berdasarkan dataset time series penerimaan mahasiswa baru dari tahun 2020 sampai dengan 2024.
+            </p>
+            <p style="text-align: justify;">Variabel target menunjukkan target jumlah mahasiswa baru yang melakukan daftar ulang, variabel daftar adalah calon mahasiswa yang mendaftar. Sedangkan variabel daftar ulang mahasiswa baru dari tahun 2020 sampai tahun 2024 adalah mahasiswa baru yang melakukan daftar ulang.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Normalisasi -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Normalisasi</h6>
+            </div>
+            <div class="col-md-12">
+                <p style="text-align: justify;">Normalisasi data digunakan untuk mentransformasikan data penerimaan mahasiswa baru menjadi range baru. Pada penelitian ini metode normalisasi yang digunakan adalah normalisasi Minmax.
+            </p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

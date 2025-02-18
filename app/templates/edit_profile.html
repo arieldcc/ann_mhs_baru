@@ -1,0 +1,36 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Edit Profil{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light rounded p-4">
+                <h4 class="mb-4 text-center">Edit Profil</h4>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3 text-center">
+                        <img class="rounded-circle mb-3" 
+                             src="{% if user.foto %}{{ url_for('static', filename='uploads/user/' + user.username + '/' + user.foto) }}{% else %}{{ url_for('static', filename='img/user.jpg') }}{% endif %}" 
+                             alt="Foto Profil" 
+                             style="width: 100px; height: 100px;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Ganti Foto Profil</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="fa fa-save"></i> Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

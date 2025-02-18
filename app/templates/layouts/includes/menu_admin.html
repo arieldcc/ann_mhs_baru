@@ -1,0 +1,59 @@
+<div class="sidebar pe-4 pb-3">
+    <nav class="navbar bg-light navbar-light">
+        <a href="{{ url_for('index') }}" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ANN</h3>
+        </a>
+        <div class="d-flex align-items-center ms-4 mb-4">
+            <div class="position-relative">
+                {% if session.get('foto') %}
+                    <img class="rounded-circle" 
+                         src="{{ url_for('static', filename='uploads/user/' + session['username'] + '/' + session['foto']) }}" 
+                         alt="Foto Profil" 
+                         style="width: 40px; height: 40px;">
+                {% else %}
+                    <img class="rounded-circle" 
+                         src="{{ url_for('static', filename='img/user.jpg') }}" 
+                         alt="Default Profil" 
+                         style="width: 40px; height: 40px;">
+                {% endif %}
+            </div>
+            <div class="ms-3">
+                <h6 class="mb-0">{{ session['username'] }}</h6>
+                <span>{{ session['role'].capitalize() }}</span>
+            </div>
+        </div>
+        <div class="navbar-nav w-100">
+            <a href="{{ url_for('index') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+
+            {% if session['role'] == 'admin' %}
+            <hr> <!-- Garis pemisah sebelum menu khusus admin -->
+            <h6 class="text-muted ms-3">Menu Admin</h6>
+            <a href="/dataset" class="nav-item nav-link"><i class="fa fa-database me-2"></i>Dataset</a>
+            <a href="{{ url_for('hyperplane') }}" class="nav-item nav-link">
+                <i class="fa fa-cogs me-2"></i>Hyperplane Model
+            </a>            
+            <a href="{{ url_for('prediksi') }}" class="nav-item nav-link"><i class="fa fa-brain me-2"></i>Prediksi ANN</a>
+            <!-- <a href="{{ url_for('upload_data') }}" class="nav-item nav-link"><i class="fa fa-database me-2"></i>Visualisasi Data</a>
+            <a href="#" class="nav-item nav-link"><i class="fa fa-chart-line me-2"></i>Prediksi ANN</a> -->
+            <!-- Garis pemisah setelah menu khusus admin -->
+            {% endif %}
+
+            {% if session['role'] in ['admin', 'pimpinan'] %}
+            <hr> <!-- Garis pemisah -->
+            <h6 class="text-muted ms-3">Visualisasi</h6>
+            <a href="{{ url_for('visualisasi_ti') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> Tek. Informatika</a>
+            <a href="{{ url_for('visualisasi_si') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> Sistem Informasi</a>
+            <a href="{{ url_for('visualisasi_dkv') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> DKV</a>
+            <a href="{{ url_for('visualisasi_fakultas') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> Grafik Fakultas</a>
+            {% endif %}
+
+
+            <h6 class="text-muted ms-3">Tools</h6>
+            {% if session['role'] in ['admin', 'pimpinan'] %}
+            <a href="{{ url_for('list_user') }}" class="nav-item nav-link"><i class="fa fa-users me-2"></i>List User</a>
+            {% endif %}
+
+            <a href="{{ url_for('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
+        </div>
+    </nav>
+</div>

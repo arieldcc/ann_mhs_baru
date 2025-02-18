@@ -1,0 +1,58 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Visualisasi - Fakultas{% endblock %}
+
+{% block content %}
+<!-- Grafik Mahasiswa Baru Fakultas -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl mx-auto">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Grafik Mahasiswa Baru Fakultas</h6>
+                </div>
+                <canvas id="grafik-fakultas"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- Load Chart.js -->
+<script src="{{ url_for('static', filename='lib/chart/chart.min.js') }}"></script>
+
+<script>
+    // Data dari Flask
+    var tahunLabels = {{ tahun_labels | tojson }};
+    var datasets = {{ datasets | tojson }};
+
+    // Bar Chart - Grafik Mahasiswa Baru Per Prodi
+    var ctx = document.getElementById("grafik-fakultas").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: tahunLabels,  // Label sumbu X (Tahun)
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Jumlah Mahasiswa"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Tahun"
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

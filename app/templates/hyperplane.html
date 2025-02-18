@@ -1,0 +1,92 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Hyperplane Model{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex justify-content-between">
+            <h6 class="mb-4">Daftar Hyperparameter Model ANN</h6>
+            <a href="{{ url_for('tambah_hyperplane') }}" class="btn btn-sm btn-primary">+ Tambah Data</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Hidden Layers</th>
+                        <th>Neurons</th>
+                        <th>Activation</th>
+                        <th>Optimizer</th>
+                        <th>Learning Rate</th>
+                        <th>Loss Function</th>
+                        <th>Epochs</th>
+                        <th>Batch Size</th>
+                        <th>Normalization</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in hyperplanes %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row.hidden_layers }}</td>
+                        <td>{{ row.neurons_per_layer }}</td>
+                        <td>{{ row.activation_function }}</td>
+                        <td>{{ row.optimizer }}</td>
+                        <td>{{ row.learning_rate }}</td>
+                        <td>{{ row.loss_function }}</td>
+                        <td>{{ row.epochs }}</td>
+                        <td>{{ row.batch_size }}</td>
+                        <td>{{ row.normalization_method }}</td>
+                        <td>
+                            {% if row.status == "A" %}
+                                <span class="badge bg-success">Aktif</span>
+                            {% else %}
+                                <span class="badge bg-danger">Tidak Aktif</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ row.created_at }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_hyperplane', id=row.id) }}" class="btn btn-warning btn-sm">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ row.id }})">
+                                <i class="fa fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(hyperplaneId) {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Data hyperplane ini akan dihapus secara permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/hyperplane/hapus/" + hyperplaneId;
+            }
+        });
+    }
+</script>
+{% endblock %}

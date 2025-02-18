@@ -1,0 +1,67 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Pola Data - Teknik Informatika{% endblock %}
+
+{% block content %}
+<!-- Tabel Data Asli -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Data Asli - Teknik Informatika</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tahun</th>
+                        <th>Target</th>
+                        <th>Daftar</th>
+                        <th>Daftar Ulang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data_asli %}
+                    <tr>
+                        <td>{{ row["Tahun"] }}</td>
+                        <td>{{ row["Target"] }}</td>
+                        <td>{{ row["Daftar"] }}</td>
+                        <td>{{ row["Daftar Ulang"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Tabel Hasil Pola Data -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Hasil Transformasi Pola Data - Teknik Informatika</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>X1 (Target t-1)</th>
+                        <th>X2 (Daftar t-1)</th>
+                        <th>X3 (Daftar Ulang t-1)</th>
+                        <th>X4 (Target t)</th>
+                        <th>X5 (Daftar t)</th>
+                        <th>Y (Daftar Ulang t)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data_pola %}
+                    <tr>
+                        <td>{{ row["X1 (Target t-1)"] }}</td>
+                        <td>{{ row["X2 (Daftar t-1)"] }}</td>
+                        <td>{{ row["X3 (Daftar Ulang t-1)"] }}</td>
+                        <td>{{ row["X4 (Target t)"] }}</td>
+                        <td>{{ row["X5 (Daftar t)"] }}</td>
+                        <td>{{ row["Y (Daftar Ulang t)"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

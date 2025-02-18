@@ -1,0 +1,72 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Tambah Hyperplane{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Tambah Hyperplane Model ANN</h6>
+        <form action="{{ url_for('simpan_hyperplane') }}" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Hidden Layers</label>
+                    <input type="number" name="hidden_layers" class="form-control" required>
+
+                    <label>Neurons per Layer</label>
+                    <input type="number" name="neurons_per_layer" class="form-control" required>
+
+                    <label>Activation Function</label>
+                    <select name="activation_function" class="form-control">
+                        <option value="relu">ReLU</option>
+                        <option value="sigmoid">Sigmoid</option>
+                        <option value="tanh">Tanh</option>
+                        <option value="softmax">Softmax</option>
+                        <option value="linear">Linear</option>
+                    </select>
+
+                    <label>Optimizer</label>
+                    <select name="optimizer" class="form-control">
+                        <option value="adam">Adam</option>
+                        <option value="sgd">SGD</option>
+                        <option value="rmsprop">RMSprop</option>
+                        <option value="adagrad">Adagrad</option>
+                    </select>
+
+                    <label>Learning Rate</label>
+                    <input type="number" step="0.0001" name="learning_rate" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label>Loss Function</label>
+                    <select name="loss_function" class="form-control">
+                        <option value="mse">MSE (Mean Squared Error)</option>
+                        <option value="mae">MAE (Mean Absolute Error)</option>
+                        <option value="binary_crossentropy">Binary Crossentropy</option>
+                        <option value="categorical_crossentropy">Categorical Crossentropy</option>
+                    </select>
+
+                    <label>Epochs</label>
+                    <input type="number" name="epochs" class="form-control" required>
+
+                    <label>Batch Size</label>
+                    <input type="number" name="batch_size" class="form-control" required>
+
+                    <label>Normalization</label>
+                    <select name="normalization_method" class="form-control">
+                        <option value="MinMaxScaler">MinMaxScaler</option>
+                        <option value="StandardScaler">StandardScaler</option>
+                    </select>
+
+                    <label>Status</label>
+                    <select name="status" class="form-control">
+                        <option value="A">Aktif</option>
+                        <option value="N" selected>Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Simpan</button>
+            <a href="{{ url_for('hyperplane') }}" class="btn btn-secondary">Batal</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

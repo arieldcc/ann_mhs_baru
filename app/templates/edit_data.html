@@ -1,0 +1,46 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Edit Data{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="bg-light rounded p-4">
+                <h4 class="mb-4 text-center">Edit Data</h4>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Kode Prodi</label>
+                        <input type="text" class="form-control" value="{{ data.kode_prodi }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Prodi</label>
+                        <input type="text" class="form-control" value="{{ data.nama_prodi }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jenjang</label>
+                        <input type="text" class="form-control" value="{{ data.jenjang }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tahun</label>
+                        <input type="text" class="form-control" value="{{ data.tahun }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Target</label>
+                        <input type="number" class="form-control" name="target" value="{{ data.variabel.target }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Daftar</label>
+                        <input type="number" class="form-control" name="daftar" value="{{ data.variabel.daftar }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Daftar Ulang</label>
+                        <input type="number" class="form-control" name="daftar_ulang" value="{{ data.variabel.daftar_ulang }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

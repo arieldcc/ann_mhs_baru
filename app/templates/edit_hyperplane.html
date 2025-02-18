@@ -1,0 +1,97 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Edit Hyperplane Model{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Edit Hyperparameter Model ANN</h6>
+        <form method="POST">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Hidden Layers</label>
+                <div class="col-sm-9">
+                    <input type="number" name="hidden_layers" class="form-control" value="{{ hyperplane.hidden_layers }}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Neurons per Layer</label>
+                <div class="col-sm-9">
+                    <input type="text" name="neurons_per_layer" class="form-control" value="{{ hyperplane.neurons_per_layer }}" required placeholder="Contoh: 8,16,32">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Activation Function</label>
+                <div class="col-sm-9">
+                    <select name="activation_function" class="form-control" required>
+                        <option value="sigmoid" {% if hyperplane.activation_function == 'sigmoid' %}selected{% endif %}>Sigmoid</option>
+                        <option value="relu" {% if hyperplane.activation_function == 'relu' %}selected{% endif %}>ReLU</option>
+                        <option value="tanh" {% if hyperplane.activation_function == 'tanh' %}selected{% endif %}>Tanh</option>
+                        <option value="softmax" {% if hyperplane.activation_function == 'softmax' %}selected{% endif %}>Softmax</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Optimizer</label>
+                <div class="col-sm-9">
+                    <select name="optimizer" class="form-control" required>
+                        <option value="adam" {% if hyperplane.optimizer == 'adam' %}selected{% endif %}>Adam</option>
+                        <option value="sgd" {% if hyperplane.optimizer == 'sgd' %}selected{% endif %}>SGD</option>
+                        <option value="rmsprop" {% if hyperplane.optimizer == 'rmsprop' %}selected{% endif %}>RMSprop</option>
+                        <option value="adagrad" {% if hyperplane.optimizer == 'adagrad' %}selected{% endif %}>Adagrad</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Learning Rate</label>
+                <div class="col-sm-9">
+                    <input type="number" step="0.0001" name="learning_rate" class="form-control" value="{{ hyperplane.learning_rate }}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Loss Function</label>
+                <div class="col-sm-9">
+                    <select name="loss_function" class="form-control" required>
+                        <option value="mse" {% if hyperplane.loss_function == 'mse' %}selected{% endif %}>Mean Squared Error (MSE)</option>
+                        <option value="mae" {% if hyperplane.loss_function == 'mae' %}selected{% endif %}>Mean Absolute Error (MAE)</option>
+                        <option value="binary_crossentropy" {% if hyperplane.loss_function == 'binary_crossentropy' %}selected{% endif %}>Binary Crossentropy</option>
+                        <option value="categorical_crossentropy" {% if hyperplane.loss_function == 'categorical_crossentropy' %}selected{% endif %}>Categorical Crossentropy</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Epochs</label>
+                <div class="col-sm-9">
+                    <input type="number" name="epochs" class="form-control" value="{{ hyperplane.epochs }}" required min="1">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Batch Size</label>
+                <div class="col-sm-9">
+                    <input type="number" name="batch_size" class="form-control" value="{{ hyperplane.batch_size }}" required min="1">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Normalization Method</label>
+                <div class="col-sm-9">
+                    <select name="normalization_method" class="form-control" required>
+                        <option value="minmax" {% if hyperplane.normalization_method == 'minmax' %}selected{% endif %}>Min-Max Scaling</option>
+                        <option value="standard" {% if hyperplane.normalization_method == 'standard' %}selected{% endif %}>Standard Scaling</option>
+                        <option value="none" {% if hyperplane.normalization_method == 'none' %}selected{% endif %}>Tanpa Normalisasi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-9">
+                    <select name="status" class="form-control">
+                        <option value="A" {% if hyperplane.status == 'A' %}selected{% endif %}>Aktif</option>
+                        <option value="N" {% if hyperplane.status == 'N' %}selected{% endif %}>Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Perubahan</button>
+            <a href="{{ url_for('hyperplane') }}" class="btn btn-secondary"><i class="fa fa-times"></i> Batal</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

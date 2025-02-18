@@ -1,0 +1,134 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Visualisasi - Teknik Informatika{% endblock %}
+
+{% block content %}
+<!-- Grafik Mahasiswa Teknik Informatika -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl mx-auto">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Grafik Mahasiswa Teknik Informatika</h6>
+                </div>
+                <canvas id="grafik-ti"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl mx-auto">
+            <div class="bg-light text-center rounded p-4 mt-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Grafik Mahasiswa Baru</h6>
+                </div>
+                <canvas id="grafik-pertumbuhan"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<!-- Load Chart.js -->
+<script src="{{ url_for('static', filename='lib/chart/chart.min.js') }}"></script>
+
+<script>
+    // Data dari Flask
+    var tahun = {{ tahun | tojson }};
+    var target = {{ target | tojson }};
+    var daftar = {{ daftar | tojson }};
+    var daftarUlang = {{ daftar_ulang | tojson }};
+
+    // Bar Chart - Grafik Mahasiswa TI
+    var ctx1 = document.getElementById("grafik-ti").getContext("2d");
+    var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: tahun,  // Label sumbu X (Tahun)
+            datasets: [
+                {
+                    label: "Target Mahasiswa",
+                    data: target,  
+                    backgroundColor: "rgba(0, 123, 255, 0.7)", // Biru
+                    borderColor: "rgba(0, 123, 255, 1)",
+                    borderWidth: 1
+                },
+                {
+                    label: "Mahasiswa Mendaftar",
+                    data: daftar,  
+                    backgroundColor: "rgba(40, 167, 69, 0.7)", // Hijau
+                    borderColor: "rgba(40, 167, 69, 1)",
+                    borderWidth: 1
+                },
+                {
+                    label: "Mahasiswa Daftar Ulang",
+                    data: daftarUlang,  
+                    backgroundColor: "rgba(220, 53, 69, 0.7)", // Merah
+                    borderColor: "rgba(220, 53, 69, 1)",
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Jumlah Mahasiswa"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Tahun"
+                    }
+                }
+            }
+        }
+    });
+
+    // Line Chart - Pertumbuhan Mahasiswa Baru
+    var ctx2 = document.getElementById("grafik-pertumbuhan").getContext("2d");
+    var myChart2 = new Chart(ctx2, {
+        type: "line",
+        data: {
+            labels: tahun,  // Label sumbu X (Tahun)
+            datasets: [
+                {
+                    label: "Mahasiswa Baru",
+                    data: daftarUlang,  
+                    backgroundColor: "rgba(255, 99, 132, 0.2)", // Warna garis merah transparan
+                    borderColor: "rgba(255, 99, 132, 1)", // Warna garis merah
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3 // Membuat kurva halus
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Jumlah Mahasiswa"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Tahun"
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

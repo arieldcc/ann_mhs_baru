@@ -1,0 +1,47 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Upload Data{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-md-6 mx-auto">
+            <div class="bg-light rounded p-4">
+                <h4 class="mb-4 text-center">Unggah Data dari Excel</h4>
+
+                <!-- Form Upload -->
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Pilih File Excel</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".xlsx, .xls" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fa fa-upload"></i> Unggah & Simpan Data
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var flashMessages = {{ get_flashed_messages(with_categories=True) | tojson }};
+        if (flashMessages.length > 0) {
+            flashMessages.forEach(function (msg) {
+                Swal.fire({
+                    icon: msg[0], // success, error, warning
+                    title: msg[1],
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

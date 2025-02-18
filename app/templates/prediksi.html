@@ -1,0 +1,31 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Prediksi ANN - Teknik Informatika{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <!-- Pilihan Program Studi -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light text-center rounded p-4">
+            <h6 class="mb-4">Pilih Program Studi</h6>
+            <form method="POST" action="{{ url_for('prediksi_proses') }}">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <select name="kode_prodi" class="form-select">
+                            <option value="">-- Pilih Program Studi --</option>
+                            {% for prodi in prodi %}
+                            <option value="{{ prodi.kode_prodi }}" {% if prodi.kode_prodi == kode_prodi %}selected{% endif %}>
+                                {{ prodi.kode_prodi + " - " + prodi.nama_prodi }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Proses</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

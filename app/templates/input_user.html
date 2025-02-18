@@ -1,0 +1,98 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Input User{% endblock %}
+
+{% block content %}
+
+<!-- Form Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Tambah User</h6>
+                <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required minlength="8">
+                        <small id="usernameHelp" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <small id="emailHelp" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                        <small id="passwordLengthHelp" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="re_password" class="form-label">Re-Password</label>
+                        <input type="password" class="form-control" id="re_password" name="re_password" required>
+                        <small id="passwordHelp" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option selected disabled>Pilih Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="pimpinan">Pimpinan</option>
+                            <option value="guest">Guest</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Foto</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Simpan User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Form End -->
+
+{% endblock %}
+
+{% block js %}
+<script>
+    function validateForm() {
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var rePassword = document.getElementById("re_password").value;
+        var foto = document.getElementById("foto").value;
+        var usernameError = document.getElementById("usernameHelp");
+        var emailError = document.getElementById("emailHelp");
+        var passwordError = document.getElementById("passwordHelp");
+        var passwordLengthError = document.getElementById("passwordLengthHelp");
+
+        usernameError.innerText = "";
+        emailError.innerText = "";
+        passwordError.innerText = "";
+        passwordLengthError.innerText = "";
+
+        if (username.length < 8) {
+            usernameError.innerText = "Username minimal 8 karakter!";
+            return false;
+        }
+
+        if (!email.includes("@")) {
+            emailError.innerText = "Email tidak valid!";
+            return false;
+        }
+
+        if (password.length < 8) {
+            passwordLengthError.innerText = "Password minimal 8 karakter!";
+            return false;
+        }
+
+        if (password !== rePassword) {
+            passwordError.innerText = "Password dan Re-Password tidak cocok!";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+{% endblock %}

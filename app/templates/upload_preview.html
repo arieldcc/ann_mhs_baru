@@ -1,0 +1,63 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Pratinjau Data{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h4 class="mb-4">Pratinjau Data</h4>
+                <form method="POST">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col"><input type="checkbox" id="select_all"></th>
+                                <th scope="col">Kode Prodi</th>
+                                <th scope="col">Nama Prodi</th>
+                                <th scope="col">Jenjang</th>
+                                <th scope="col">Tahun</th>
+                                <th scope="col">Target</th>
+                                <th scope="col">Daftar</th>
+                                <th scope="col">Daftar Ulang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><input type="checkbox" name="selected_data" value="{{ loop.index0 }}"></td>
+                                <td>{{ item.kode_prodi }}</td>
+                                <td>{{ item.nama_prodi }}</td>
+                                <td>{{ item.jenjang }}</td>
+                                <td>{{ item.tahun }}</td>
+                                <td>{{ item.target }}</td>
+                                <td>{{ item.daftar }}</td>
+                                <td>{{ item.daftar_ulang }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Data</button>
+                        <a href="{{ url_for('upload_data') }}" class="btn btn-secondary">Kembali</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    document.getElementById('select_all').addEventListener('change', function() {
+        let checkboxes = document.querySelectorAll('input[name="selected_data"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+</script>
+{% endblock %}

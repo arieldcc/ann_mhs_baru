@@ -1,0 +1,287 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}Prediksi ANN - Teknik Informatika{% endblock %}
+
+{% block content %}
+<!-- Tabel Data Asli -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Data Asli - {{ nama_prodi }}</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tahun</th>
+                        <th>Target</th>
+                        <th>Daftar</th>
+                        <th>Daftar Ulang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data_asli %}
+                    <tr>
+                        <td>{{ row["Tahun"] }}</td>
+                        <td>{{ row["Target"] }}</td>
+                        <td>{{ row["Daftar"] }}</td>
+                        <td>{{ row["Daftar Ulang"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Tabel Pola Data -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Transformasi Pola Data - {{ nama_prodi }}</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>X1 (Target t-1)</th>
+                        <th>X2 (Daftar t-1)</th>
+                        <th>X3 (Daftar Ulang t-1)</th>
+                        <th>X4 (Target t)</th>
+                        <th>X5 (Daftar t)</th>
+                        <th>Y (Daftar Ulang t)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data_pola %}
+                    <tr>
+                        {% for value in row.values() %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Tabel Normalisasi Data -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Normalisasi Data - {{ nama_prodi }}</h6>
+        <p>
+            Normalisasi dilakukan dengan metode <b>Min-Max Scaling</b> menggunakan rumus:
+            \[
+            X' = \frac{X - X_{\text{min}}}{X_{\text{max}} - X_{\text{min}}} (b-a) + a
+            \]
+            di mana \( a = 0.1 \) dan \( b = 0.9 \).
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>X1 Normalized</th>
+                        <th>X2 Normalized</th>
+                        <th>X3 Normalized</th>
+                        <th>X4 Normalized</th>
+                        <th>X5 Normalized</th>
+                        <th>Y Normalized</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data_normalisasi %}
+                    <tr>
+                        {% for value in row.values() %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Arsitektur ANN -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Arsitektur Model ANN</h6>
+        <p>Model ANN menggunakan <b>Multi-Layer Perceptron (MLP)</b> dengan spesifikasi:</p>
+        <ul class="list-group text-start">
+            <li class="list-group-item">Input Layer: 5 neuron (X1 - X5)</li>
+            <li class="list-group-item">Hidden Layer: 1 layer, 8 neuron, aktivasi <b>Sigmoid</b></li>
+            <li class="list-group-item">Output Layer: 1 neuron, aktivasi <b>Sigmoid</b></li>
+            <li class="list-group-item">Optimasi:  <b>Adam</b>, Learning Rate: 0.01</li>
+            <li class="list-group-item">Loss Function: <b>Mean Squared Error (MSE)</b></li>
+        </ul>
+        <br>
+        <p>Struktur ANN secara visual:</p>
+        <pre>
+        Input Layer (5) ---> Hidden Layer (8) ---> Output Layer (1)
+        </pre>
+    </div>
+</div>
+
+<!-- Log Pelatihan ANN -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Proses Pelatihan Model ANN</h6>
+        <p>Model dilatih menggunakan <b>backpropagation</b>, dengan optimasi <b>Adam</b>.</p>
+        <p>Setiap epoch mencatat <b>loss function (MSE)</b> dari training dan validasi.</p>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Epoch</th>
+                    <th>Loss</th>
+                    <th>MSE</th>
+                    <th>Validation Loss</th>
+                    <th>Validation MSE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in log_pelatihan %}
+                <tr>
+                    <td>{{ row.epoch }}</td>
+                    <td>{{ row.loss }}</td>
+                    <td>{{ row.mse }}</td>
+                    <td>{{ row.val_loss }}</td>
+                    <td>{{ row.val_mse }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Grafik Konvergensi Model -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Grafik Konvergensi Model ANN</h6>
+        <p>Grafik ini menunjukkan bagaimana <b>Training MSE</b> dan <b>Validation MSE</b> berubah setiap epoch.</p>
+        <img src="{{ url_for('static', filename='images/training_convergence.png') }}" alt="Grafik Konvergensi" class="img-fluid">
+    </div>
+</div>
+
+<!-- Evaluasi Model - Confusion Matrix -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Evaluasi Model - Confusion Matrix</h6>
+        <img src="{{ url_for('static', filename=confusion_matrix_image) }}" alt="Confusion Matrix" class="img-fluid">
+    </div>
+</div>
+
+<!-- Classification Report -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Classification Report</h6>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Class</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                        <th>Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for class_label, metrics in class_report.items() if class_label in ['0', '1'] %}
+                    <tr>
+                        <td><b>{{ class_label }}</b></td>
+                        <td>{{ metrics['precision']|round(4) }}</td>
+                        <td>{{ metrics['recall']|round(4) }}</td>
+                        <td>{{ metrics['f1-score']|round(4) }}</td>
+                        <td>{{ metrics['support'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Arsitektur Model ANN -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Arsitektur Model ANN</h6>
+        <ul class="list-group text-start">
+            <li class="list-group-item">Input Layer: 5 neuron (X1 - X5)</li>
+            <li class="list-group-item">Hidden Layer: {{ hyperplane.hidden_layers }} layer(s), 
+                {{ hyperplane.neurons_per_layer }} neuron(s), aktivasi <b>{{ hyperplane.activation_function }}</b></li>
+            <li class="list-group-item">Output Layer: 1 neuron, aktivasi <b>Sigmoid</b></li>
+            <li class="list-group-item">Optimasi: <b>{{ hyperplane.optimizer | upper }}</b>, Learning Rate: {{ hyperplane.learning_rate }}</li>
+            <li class="list-group-item">Loss Function: <b>{{ hyperplane.loss_function | upper }}</b></li>
+            <li class="list-group-item"><b>MSE Training:</b> {{ mse_training|round(4) }}</li>
+            <li class="list-group-item"><b>MSE Testing:</b> {{ mse_testing|round(4) }}</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Prediksi Tahun Berikutnya -->
+<div class="container-fluid pt-4 px-4 mt-4">
+    <div class="bg-light text-center rounded p-4">
+        <h6 class="mb-4">Prediksi Jumlah Pendaftar di Tahun Berikutnya</h6>
+        <p>Berdasarkan model ANN yang telah dilatih, prediksi jumlah pendaftar prodi <b>{{ nama_prodi }}</b> di tahun <b>{{ hasil_prediksi.tahun_prediksi }}</b> adalah:</p>
+        <h3 class="text-primary">{{ hasil_prediksi.prediksi_jumlah_pendaftar }} atau &asymp; {{ hasil_prediksi.prediksi_jumlah_pendaftar | round(0, 'ceil') }} Mahasiswa Baru</h3>
+
+        <!-- 1️⃣ Forward Pass ke Hidden Layer -->
+        <h6 class="mt-3">1. Forward Pass - Aktivasi Hidden Layer</h6>
+        <p>Gunakan rumus:</p>
+        <p>\[
+        z_{\text{hidden}} = X \cdot W_{\text{input\_to\_hidden}} + B_{\text{hidden}}
+        \]</p>
+        <p>\[
+        h_{\text{hidden}} = \frac{1}{1 + e^{-z_{\text{hidden}}}}
+        \]</p>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr><th>Neuron Hidden</th><th>Perhitungan \(z_{\text{hidden}}\)</th><th>Perhitungan \(h_{\text{hidden}}\)</th></tr>
+                </thead>
+                <tbody>
+                    {% for row in hasil_prediksi.langkah_forward_hidden %}
+                    <tr>
+                        <td>Neuron {{ row.neuron }}</td>
+                        <td>{{ row.angka }}</td>
+                        <td>{{ row.aktivasi }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2️⃣ Forward Pass ke Output Layer -->
+        <h6 class="mt-3">2. Forward Pass ke Output Layer</h6>
+        <p>Gunakan rumus:</p>
+        <p>\[
+        z_{\text{output}} = \sum (h_{\text{hidden}} \cdot W_{\text{hidden\_to\_output}}) + B_{\text{output}}
+        \]</p>
+        <p>\[
+        y_{\text{pred}} = \frac{1}{1 + e^{-z_{\text{output}}}}
+        \]</p>
+        <div class="bg-light p-3 text-center rounded">
+            <p><b>Perhitungan:</b></p>
+            <p>{{ hasil_prediksi.langkah_forward_output.angka }}</p>
+            <p>{{ hasil_prediksi.langkah_forward_output.aktivasi }}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+<!-- Load MathJax untuk menampilkan rumus matematika -->
+<script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{% endblock %}
+
